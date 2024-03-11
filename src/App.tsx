@@ -5,10 +5,8 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import { useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
 
-import dataProvider, {
-  GraphQLClient,
-  liveProvider,
-} from "@refinedev/nestjs-query";
+import { authProvider, dataProvider, liveProvider } from "./providers"
+
 import routerBindings, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
@@ -18,11 +16,6 @@ import { createClient } from "graphql-ws";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 
-
-
-const gqlClient = new GraphQLClient(API_URL);
-const wsClient = createClient({ url: WS_URL });
-
 function App() {
   return (
     <BrowserRouter>
@@ -31,11 +24,11 @@ function App() {
           <AntdApp>
             <DevtoolsProvider>
               <Refine
-                // dataProvider={dataProvider(gqlClient)}
-                // liveProvider={liveProvider(wsClient)}
-                // notificationProvider={useNotificationProvider}
-                // routerProvider={routerBindings}
-                
+                 dataProvider={dataProvider}
+                 liveProvider={liveProvider}
+                 notificationProvider={useNotificationProvider}
+                 routerProvider={routerBindings}
+                 authProvider={authProvider}
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
